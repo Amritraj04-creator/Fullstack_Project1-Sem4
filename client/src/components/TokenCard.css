@@ -1,0 +1,148 @@
+.token-card {
+  background: white;
+  border: 1.5px solid var(--gray-200);
+  border-radius: var(--radius);
+  overflow: hidden;
+  transition: var(--transition);
+}
+
+.token-card:hover { box-shadow: var(--shadow); }
+
+/* ── YOUR TURN state ── */
+.your-turn-card {
+  border-color: var(--teal) !important;
+  box-shadow: 0 0 0 3px rgba(14,165,233,0.15), 0 8px 24px rgba(14,165,233,0.12) !important;
+  animation: turnGlow 2s ease-in-out infinite;
+}
+
+@keyframes turnGlow {
+  0%, 100% { box-shadow: 0 0 0 3px rgba(14,165,233,0.15), 0 8px 24px rgba(14,165,233,0.12); }
+  50%       { box-shadow: 0 0 0 6px rgba(14,165,233,0.25), 0 12px 32px rgba(14,165,233,0.2); }
+}
+
+/* ── Banner ── */
+.your-turn-banner {
+  display: flex; align-items: center; gap: 10px;
+  background: linear-gradient(135deg, #0EA5E9, #0369A1);
+  color: white;
+  font-size: 0.8125rem; font-weight: 700;
+  padding: 10px 16px;
+  letter-spacing: 0.01em;
+}
+
+.yt-pulse {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: white; flex-shrink: 0;
+  animation: pulse-ring 1s infinite;
+  box-shadow: 0 0 0 0 rgba(255,255,255,0.6);
+}
+
+@keyframes pulse-ring {
+  0%   { box-shadow: 0 0 0 0 rgba(255,255,255,0.6); }
+  70%  { box-shadow: 0 0 0 8px rgba(255,255,255,0); }
+  100% { box-shadow: 0 0 0 0 rgba(255,255,255,0); }
+}
+
+/* ── Inner row ── */
+.token-card-inner {
+  display: flex; align-items: center; gap: 14px;
+  padding: 14px 16px;
+}
+
+.token-card.cancelled { opacity: 0.65; }
+
+/* ── Number section ── */
+.token-number-section {
+  flex-shrink: 0; display: flex; flex-direction: column;
+  align-items: center; gap: 4px;
+}
+
+.token-badge {
+  width: 54px; height: 54px; border-radius: 14px;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center; gap: 1px;
+}
+
+.waiting      .token-badge { background: linear-gradient(135deg, #92400E, #B45309); color: white; }
+.in-progress  .token-badge { background: linear-gradient(135deg, #0369A1, #0EA5E9); color: white; }
+.completed    .token-badge { background: linear-gradient(135deg, #065F46, #10B981); color: white; }
+.cancelled    .token-badge { background: linear-gradient(135deg, #991B1B, #EF4444); color: white; }
+
+.token-badge svg { opacity: 0.7; }
+
+.tn {
+  font-family: var(--font-display);
+  font-size: 1.125rem; font-weight: 800; line-height: 1;
+}
+
+.queue-pos {
+  font-size: 0.65rem; color: var(--gray-500);
+  font-weight: 600; white-space: nowrap; text-align: center;
+}
+
+/* ── Details ── */
+.token-details { flex: 1; min-width: 0; }
+
+.token-clinic-name {
+  font-family: var(--font-display);
+  font-size: 0.9375rem; font-weight: 700; color: var(--navy);
+  margin-bottom: 4px; white-space: nowrap;
+  overflow: hidden; text-overflow: ellipsis;
+}
+
+.token-meta {
+  display: flex; gap: 12px; margin-bottom: 3px; flex-wrap: wrap;
+}
+
+.token-meta span {
+  display: flex; align-items: center; gap: 4px;
+  font-size: 0.75rem; color: var(--gray-500);
+}
+
+.token-reason {
+  font-size: 0.8125rem; color: var(--gray-500);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  margin-bottom: 3px;
+}
+
+.people-ahead {
+  font-size: 0.78rem; font-weight: 600;
+  color: var(--teal-dark);
+  background: rgba(14,165,233,0.07);
+  display: inline-block;
+  padding: 2px 8px; border-radius: 6px;
+}
+
+/* ── Right ── */
+.token-right {
+  flex-shrink: 0; display: flex; flex-direction: column;
+  align-items: flex-end; gap: 8px;
+}
+
+.token-status-badge {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 0.75rem; font-weight: 700;
+  padding: 5px 11px; border-radius: 999px;
+  white-space: nowrap;
+}
+
+.status-pulse-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  animation: pulse-ring 1.2s infinite;
+}
+
+.completed-icon { display: flex; align-items: center; }
+
+.cancel-btn {
+  display: flex; align-items: center; gap: 4px;
+  font-size: 0.75rem; font-weight: 600;
+  color: var(--gray-500); padding: 5px 10px;
+  border-radius: 8px; transition: var(--transition);
+  border: 1px solid var(--gray-200); background: white;
+}
+.cancel-btn:hover { color: var(--red); border-color: var(--red); background: rgba(239,68,68,0.05); }
+
+@media (max-width: 500px) {
+  .token-card-inner { flex-wrap: wrap; }
+  .token-meta { flex-direction: column; gap: 2px; }
+}
