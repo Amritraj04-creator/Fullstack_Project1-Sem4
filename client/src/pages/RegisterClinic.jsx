@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../api/axios';
 import toast from 'react-hot-toast';
+import { useAuth } from '../context/AuthContext';
 import {
   Building2, FileText, Stethoscope, MapPin, Phone,
   Mail, Clock, Hash, ArrowRight, CheckCircle
@@ -16,6 +17,7 @@ const SPECIALIZATIONS = [
 
 export default function RegisterClinic() {
   const navigate = useNavigate();
+  const { updateUser } = useAuth();          // ← pull updateUser from context
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [form, setForm] = useState({
@@ -57,6 +59,11 @@ export default function RegisterClinic() {
         lat: form.lat,
         lng: form.lng,
       });
+
+      // ✅ Immediately update the role in AuthContext + localStorage
+      // so Navbar and route guards reflect clinic_admin without re-login
+      updateUser({ role: 'clinic_admin' });
+
       setSuccess(true);
       toast.success('Clinic registered successfully! 🏥');
     } catch (err) {
@@ -74,13 +81,19 @@ export default function RegisterClinic() {
             <CheckCircle size={48} color="var(--green)" />
           </div>
           <h2>Clinic Registered!</h2>
-          <p>Your clinic is now live on QueueEase. Patients can find and book tokens at your clinic.</p>
+          <p>Your clinic is now live on QueueEase. Go to your Clinic Dashboard to manage the queue and settings.</p>
           <div className="rc-success-actions">
-            <button className="btn-primary-rc" onClick={() => navigate('/dashboard')}>
-              Go to Dashboard
+            <button
+              className="btn-primary-rc"
+              onClick={() => navigate('/clinic-dashboard')}
+            >
+              Go to Clinic Dashboard
             </button>
-            <button className="btn-ghost-rc" onClick={() => { setSuccess(false); setForm({ name:'',registrationNumber:'',specialization:'General',street:'',city:'',state:'',pincode:'',phone:'',email:'',openTime:'09:00',closeTime:'18:00',lat:'',lng:'' }); }}>
-              Register Another
+            <button
+              className="btn-ghost-rc"
+              onClick={() => navigate('/dashboard')}
+            >
+              Patient Dashboard
             </button>
           </div>
         </div>

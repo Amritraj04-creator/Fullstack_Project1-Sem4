@@ -8,16 +8,14 @@ import './Auth.css';
 export default function Login() {
   const { login, loading } = useAuth();
   const navigate = useNavigate();
-  const [form, setForm] = useState({ email: '', password: '' });
+  const [form, setForm]       = useState({ email: '', password: '' });
   const [showPass, setShowPass] = useState(false);
 
   const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!form.email || !form.password) {
-      return toast.error('Please fill in all fields');
-    }
+    if (!form.email || !form.password) return toast.error('Please fill in all fields');
     const result = await login(form.email, form.password);
     if (result.success) {
       toast.success('Welcome back! 👋');
@@ -29,6 +27,7 @@ export default function Login() {
 
   return (
     <div className="auth-page">
+      {/* Left panel */}
       <div className="auth-left">
         <div className="auth-left-content">
           <Link to="/" className="auth-brand">
@@ -47,6 +46,7 @@ export default function Login() {
         <div className="auth-left-blob" />
       </div>
 
+      {/* Right panel */}
       <div className="auth-right">
         <div className="auth-form-wrap">
           <div className="auth-form-header fade-up">
@@ -71,7 +71,12 @@ export default function Login() {
             </div>
 
             <div className="form-group">
-              <label>Password</label>
+              <div className="label-row">
+                <label>Password</label>
+                <Link to="/forgot-password" className="forgot-link">
+                  Forgot password?
+                </Link>
+              </div>
               <div className="input-wrap">
                 <Lock size={16} className="input-icon" />
                 <input
@@ -85,7 +90,7 @@ export default function Login() {
                 <button
                   type="button"
                   className="eye-btn"
-                  onClick={() => setShowPass((s) => !s)}
+                  onClick={() => setShowPass(s => !s)}
                   tabIndex={-1}
                 >
                   {showPass ? <EyeOff size={15} /> : <Eye size={15} />}
@@ -94,15 +99,15 @@ export default function Login() {
             </div>
 
             <button type="submit" className="auth-submit-btn" disabled={loading}>
-              {loading ? <span className="btn-spinner" /> : (
-                <><span>Sign In</span><ArrowRight size={17} /></>
-              )}
+              {loading
+                ? <span className="btn-spinner" />
+                : <><span>Sign In</span><ArrowRight size={17} /></>
+              }
             </button>
           </form>
 
           <p className="auth-switch fade-up-2">
-            Don't have an account?{' '}
-            <Link to="/signup">Create one free →</Link>
+            Don't have an account? <Link to="/signup">Create one free →</Link>
           </p>
         </div>
       </div>

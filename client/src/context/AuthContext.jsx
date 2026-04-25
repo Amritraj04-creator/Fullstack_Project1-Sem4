@@ -10,6 +10,26 @@ export const AuthProvider = ({ children }) => {
   });
   const [loading, setLoading] = useState(false);
 
+  // ✅ On every app load, silently re-fetch the latest profile
+  // so the role in localStorage is always in sync with the database.
+  useEffect(() => {
+    const syncProfile = async () => {
+      if (!user?.token) return;
+      try {
+        const { data } = await api.get('/auth/profile');
+        // Only update if role has changed (e.g. after clinic registration)
+        if (data.role !== user.role) {
+          const updated = { ...user, role: data.role };
+          localStorage.setItem('queueease_user', JSON.stringify(updated));
+          setUser(updated);
+        }
+      } catch {
+        // Token expired or invalid — leave as-is, the axios interceptor will handle 401
+      }
+    };
+    syncProfile();
+  }, []); // run once on mount
+
   const login = async (email, password) => {
     setLoading(true);
     try {

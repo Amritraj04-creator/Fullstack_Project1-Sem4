@@ -10,6 +10,8 @@ import Dashboard from './pages/Dashboard';
 import RegisterClinic from './pages/RegisterClinic';
 import ClinicDetail from './pages/ClinicDetail';
 import ClinicDashboard from './pages/ClinicDashboard';
+import ForgotPassword from './pages/ForgotPassword';
+import ResetPassword from './pages/ResetPassword';
 
 const PrivateRoute = ({ children }) => {
   const { user } = useAuth();
@@ -21,7 +23,6 @@ const PublicOnlyRoute = ({ children }) => {
   return !user ? children : <Navigate to="/dashboard" replace />;
 };
 
-// Only accessible to clinic_admin role
 const ClinicAdminRoute = ({ children }) => {
   const { user } = useAuth();
   if (!user) return <Navigate to="/login" replace />;
@@ -34,18 +35,17 @@ function AppRoutes() {
     <>
       <Navbar />
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/login" element={<PublicOnlyRoute><Login /></PublicOnlyRoute>} />
-        <Route path="/signup" element={<PublicOnlyRoute><Signup /></PublicOnlyRoute>} />
-        <Route path="/dashboard" element={<PrivateRoute><Dashboard /></PrivateRoute>} />
-        <Route path="/register-clinic" element={<PrivateRoute><RegisterClinic /></PrivateRoute>} />
-        <Route path="/clinic/:id" element={<PrivateRoute><ClinicDetail /></PrivateRoute>} />
-        <Route
-          path="/clinic-dashboard"
-          element={<ClinicAdminRoute><ClinicDashboard /></ClinicAdminRoute>}
-        />
-        <Route path="*" element={<Navigate to="/" replace />} />
+        <Route path="/"                  element={<Home />} />
+        <Route path="/about"             element={<About />} />
+        <Route path="/login"             element={<PublicOnlyRoute><Login /></PublicOnlyRoute>} />
+        <Route path="/signup"            element={<PublicOnlyRoute><Signup /></PublicOnlyRoute>} />
+        <Route path="/forgot-password"   element={<PublicOnlyRoute><ForgotPassword /></PublicOnlyRoute>} />
+        <Route path="/reset-password/:token" element={<ResetPassword />} />
+        <Route path="/dashboard"         element={<PrivateRoute><Dashboard /></PrivateRoute>} />
+        <Route path="/register-clinic"   element={<PrivateRoute><RegisterClinic /></PrivateRoute>} />
+        <Route path="/clinic/:id"        element={<PrivateRoute><ClinicDetail /></PrivateRoute>} />
+        <Route path="/clinic-dashboard"  element={<ClinicAdminRoute><ClinicDashboard /></ClinicAdminRoute>} />
+        <Route path="*"                  element={<Navigate to="/" replace />} />
       </Routes>
       <Toaster
         position="top-right"
@@ -57,7 +57,7 @@ function AppRoutes() {
             boxShadow: '0 10px 40px rgba(0,0,0,0.12)',
           },
           success: { iconTheme: { primary: '#10B981', secondary: '#fff' } },
-          error: { iconTheme: { primary: '#EF4444', secondary: '#fff' } },
+          error:   { iconTheme: { primary: '#EF4444', secondary: '#fff' } },
         }}
       />
     </>

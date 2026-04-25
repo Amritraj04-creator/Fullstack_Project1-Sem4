@@ -250,3 +250,22 @@
 @media (max-width: 480px) {
   .form-row { grid-template-columns: 1fr; }
 }
+
+/* ── Forgot password link ── */
+.label-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.forgot-link {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--teal);
+  transition: var(--transition);
+}
+
+.forgot-link:hover {
+  color: var(--teal-dark);
+  text-decoration: underline;
+}
